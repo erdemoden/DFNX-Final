@@ -3,6 +3,7 @@ package erdem.FinalCase.Entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +19,7 @@ public class Customer {
     @Field("id")
     @Id
     private String id;
-    @Field("name")
+
     @NotNull(message = "You Should Enter Your Name")
     private String name;
     @NotNull(message = "You Should Enter Your Surname")
@@ -35,4 +36,6 @@ public class Customer {
     @NotNull(message = "You Should Enter Your Identification Number")
     @Size(min=11,max = 11,message = "You Should Enter 11 Digits For Identification Number")
     private String idNo;
+    private int deposit;
+    private int creditScore;
 }
