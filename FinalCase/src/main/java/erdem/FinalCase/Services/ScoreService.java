@@ -6,15 +6,51 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScoreService {
     private int maxCredit = 2000;
-    public int CalculateCreditScore(Customer customer){
+    private int creditLimitMultiplication = 4;
+    public Customer CalculateCreditScore(Customer customer){
         int salary = customer.getMonthlySalary();
+        int dept= customer.getDebt();
+        int deptToIncomeRatio = (dept*100)/salary;
         int deposit = customer.getDeposit();
-        int deptToIncomeRatio = (deposit*100)/salary;
         int ratioLeft = 100-deptToIncomeRatio;
         if(ratioLeft>0) {
+
             int creditScore = (maxCredit * ratioLeft) / 100;
-            return creditScore;
+
+            if(creditScore>=500 && creditScore<1000 && customer.getMonthlySalary()<5000){
+                int limit = 10000+calculatePercentage(10,deposit);
+                customer.setCreditLimit(limit);
+                customer.setCreditScore(creditScore);
+                customer.setAccepted(true);
+            }
+
+            if(creditScore>=500 && creditScore<1000 && customer.getMonthlySalary()>=5000 && customer.getMonthlySalary()<=10000){
+                int limit = 20000+calculatePercentage(20,deposit);
+                customer.setCreditLimit(limit);
+                customer.setCreditScore(creditScore);
+                customer.setAccepted(true);
+            }
+
+            if(creditScore>=500 && creditScore<1000 && customer.getMonthlySalary()>10000){
+                int limit = customer.getMonthlySalary()*creditLimitMultiplication/2+calculatePercentage(25,deposit);
+                customer.setCreditLimit(limit);
+                customer.setCreditScore(creditScore);
+                customer.setAccepted(true);
+            }
+
+            if(creditScore>=1000){
+                int limit = customer.getMonthlySalary()*creditLimitMultiplication+calculatePercentage(50,deposit);
+                customer.setCreditLimit(limit);
+                customer.setCreditScore(creditScore);
+                customer.setAccepted(true);
+            }
+
+            return customer;
         }
-        return 0;
+        customer.setCreditScore(0);
+        return customer;
+    }
+    public int calculatePercentage(int percentage,int deposit){
+        return (deposit*percentage)/100;
     }
 }

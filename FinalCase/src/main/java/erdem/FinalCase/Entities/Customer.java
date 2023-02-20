@@ -37,5 +37,8 @@ public class Customer {
     @Size(min=11,max = 11,message = "You Should Enter 11 Digits For Identification Number")
     private String idNo;
     private int deposit;
+    private int debt;
     private int creditScore;
+    private boolean accepted = false;
+    private int creditLimit;
 }

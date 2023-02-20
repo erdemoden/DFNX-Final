@@ -18,9 +18,7 @@ public class CustomerService {
     private final ScoreService scoreService;
     private final ModelMapper modelMapper;
     public Customer saveCustomer(Customer customer){
-        int creditScore = scoreService.CalculateCreditScore(customer);
-        customer.setCreditScore(creditScore);
-       return customerRepo.save(customer);
+       return customerRepo.save(scoreService.CalculateCreditScore(customer));
     }
     public Customer getCustomer(String idNo){
         return customerRepo.findByIdNo(idNo);
