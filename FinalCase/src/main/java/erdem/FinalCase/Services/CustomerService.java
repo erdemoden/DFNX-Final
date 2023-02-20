@@ -17,8 +17,14 @@ public class CustomerService {
     private final CustomerRepo customerRepo;
     private final ScoreService scoreService;
     private final ModelMapper modelMapper;
+    private final TwilioSmsSender smsSender;
     public Customer saveCustomer(Customer customer){
-       return customerRepo.save(scoreService.CalculateCreditScore(customer));
+        customer = scoreService.CalculateCreditScore(customer);
+        smsSender.sendSms(customer.getPhoneNumber(),
+                "Your Credit Score is : "+customer.getCreditScore()+
+                "Because Of That Your Credit Limit is : "+customer.getCreditLimit()
+                );
+       return customerRepo.save(customer);
     }
     public Customer getCustomer(String idNo){
         return customerRepo.findByIdNo(idNo);
