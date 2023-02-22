@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface CustomerRepo extends MongoRepository<Customer,String> {
 
-    @Query("{'name':?0 }")
+    @Query("{'idNo':?0 }")
     Customer findByIdNo(String idNo);
 }

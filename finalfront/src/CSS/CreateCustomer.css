@@ -1,0 +1,20 @@
+.back{
+    display: block;
+    background-color: gray;
+    width: 70%;
+    height: 800px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+.formelements{
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 50%;
+    height: 50px;
+    text-align: center;
+}
+.title{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

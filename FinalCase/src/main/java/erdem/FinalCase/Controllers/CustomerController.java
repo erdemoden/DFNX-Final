@@ -2,6 +2,7 @@ package erdem.FinalCase.Controllers;
 
 import erdem.FinalCase.Entities.Customer;
 import erdem.FinalCase.Responses.CustomerResponse;
+import erdem.FinalCase.Responses.FullCustomer;
 import erdem.FinalCase.Services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("/save")
-    public Customer save(@RequestBody @Valid Customer customer){
+    public FullCustomer save(@RequestBody @Valid Customer customer){
         System.out.println(customer.getName());
         return customerService.saveCustomer(customer);
     }
