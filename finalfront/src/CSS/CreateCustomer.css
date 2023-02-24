@@ -6,6 +6,22 @@
     margin: 0 auto;
     margin-top: 50px;
 }
+.bigback{
+    display: block;
+    background-color: gray;
+    width: 70%;
+    height: 850px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+.smallback{
+    display: block;
+    background-color: gray;
+    width: 70%;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
 .formelements{
     display: block;
     margin: 0 auto;
@@ -14,7 +30,44 @@
     height: 50px;
     text-align: center;
 }
+.buttons{
+    margin-top: 50px;
+}
+.leftbut{
+    display: block;
+    float: left;
+    margin-left: 50px;
+    width: 25%;
+    height: 50px;
+    text-align: 
+    center;
+}
+.middlebut{
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 25%;
+    height: 50px;
+    text-align: center;
+}
+.rightbut{
+    display: block;
+    float: right;
+    margin-right: 50px;
+    width: 25%;
+    height: 50px;
+    text-align: center;
+}
 .title{
     padding-top: 20px;
     padding-bottom: 20px;
+}
+.label{
+    font-weight: bolder;
+    font-size: xx-large;
+}
+.label2{
+    margin-top: 20px;
+    font-weight: bolder;
+    font-size:x-large;
 }

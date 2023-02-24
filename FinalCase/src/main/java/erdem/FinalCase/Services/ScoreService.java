@@ -13,9 +13,8 @@ public class ScoreService {
         int deptToIncomeRatio = (dept*100)/salary;
         int deposit = customer.getDeposit();
         int ratioLeft = 100-deptToIncomeRatio;
+        int creditScore = (maxCredit * ratioLeft) / 100;
         if(ratioLeft>0) {
-
-            int creditScore = (maxCredit * ratioLeft) / 100;
 
             if(creditScore>=500 && creditScore<1000 && customer.getMonthlySalary()<5000){
                 int limit = 10000+calculatePercentage(10,deposit);
@@ -44,10 +43,10 @@ public class ScoreService {
                 customer.setCreditScore(creditScore);
                 customer.setAccepted(true);
             }
-
             return customer;
         }
-        customer.setCreditScore(0);
+        customer.setCreditScore(creditScore);
+        customer.setCreditLimit(0);
         return customer;
     }
     public int calculatePercentage(int percentage,int deposit){

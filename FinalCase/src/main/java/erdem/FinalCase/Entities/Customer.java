@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -18,8 +20,7 @@ import java.util.Date;
 @Data
 @Document(collection = "Customer")
 public class Customer {
-    @Field("id")
-    @Id
+    @MongoId(FieldType.OBJECT_ID)
     private String id;
 
     @NotNull(message = "You Should Enter Your Name")
@@ -33,9 +34,7 @@ public class Customer {
     @Size(max = 10,min = 10,message = "You Should Enter 10 digit Phone Number")
     private String phoneNumber;
     @NotNull(message = "You Should Enter Your Birthday")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd/MM/yyyy")
-    private Date birthday;
+    private String birthday;
     @NotNull(message = "You Should Enter Your Identification Number")
     @Indexed(unique = true,sparse = true)
     @Size(min=11,max = 11,message = "You Should Enter 11 Digits For Identification Number")
@@ -43,9 +42,9 @@ public class Customer {
     private int deposit;
     private int debt;
     private int creditScore;
+    private int creditLimit;
     @JsonIgnore
     private boolean accepted = false;
-    private int creditLimit;
     @JsonIgnore
     private String error;
 }
