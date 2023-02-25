@@ -11,6 +11,9 @@ const CreateCustomer = ()=>{
 const updatePage = (page)=>{
   setPage(page);
 }
+const updateMyParams = (params)=>{
+  setMyParams(params);
+}
   const saveClicked = async ()=>{
     let name = document.getElementById("name").value;
     let surname = document.getElementById("surname").value;
@@ -58,9 +61,7 @@ const updatePage = (page)=>{
           })
         }
         else{
-          setMyParams(response.customer);
-          console.log(response.customer);
-          console.log(myparams.name);
+          updateMyParams(response.customer)
           updatePage(1);
         }
     }
@@ -87,10 +88,10 @@ const updatePage = (page)=>{
           </div>
         </div>
         <div style={{display: page == 1 ? "block":"none"}}>
-        <UpdateCustomer params={myparams} func={updatePage}/>
+        <UpdateCustomer params={myparams} func={updatePage} updateMyParams = {updateMyParams}/>
         </div>
         <div style={{display: page == 2 ? "block":"none"}}>
-          <GetCustomer func={updatePage}/>
+          <GetCustomer func={updatePage}  params={updateMyParams}/>
         </div>
         </React.Fragment>
       

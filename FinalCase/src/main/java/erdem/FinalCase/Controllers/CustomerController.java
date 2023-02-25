@@ -27,6 +27,10 @@ public class CustomerController {
     public FullCustomer getByTc(@RequestParam String tc){
         return customerService.getByTc(tc);
     }
+    @PostMapping("/update")
+    public FullCustomer updateByTc(@RequestBody @Valid Customer customer,@RequestParam String tc){
+        return customerService.updateCustomer(tc,customer);
+    }
     @GetMapping("/all")
     public List<CustomerResponse> getAll(){
         return customerService.getAll();
