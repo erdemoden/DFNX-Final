@@ -1,18 +1,27 @@
 import "../CSS/CreateCustomer.css";
-import { useEffect } from "react";
-import { getCustomerById, updateCustomerByTc } from "../Services/CreateCustomers";
+import { useEffect,useState } from "react";
+import { deleteCustomerByTc, getCustomerById, updateCustomerByTc } from "../Services/CreateCustomers";
 import swal from "sweetalert";
+import { Bounce } from "react-reveal";
 const UpdateCustomer = (props)=>{
-    let tc = "";
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [name,setName] = useState("");
+    const [surname,setSurname] = useState("");
+    const [idNo,setIdNo] = useState("");
+    const [deposit,setDeposit] = useState("");
+    const [debt,setDebt] = useState("");
+    const [monthlySalary,setMonthlySalary] = useState("");
+    const [birthday,setBirthday] = useState("");
     const updateClicked = async ()=>{
-        let name = document.getElementById("name3").value;
-        let surname = document.getElementById("surname3").value;
-        let idNo = document.getElementById("tcno3").value;
-        let phoneNumber = document.getElementById("phonenumber3").value;
-        let deposit = document.getElementById("deposit3").value;
-        let debt = document.getElementById("debt3").value;
-        let monthlySalary = document.getElementById("monthlysalary3").value;
-        let birthday = document.getElementById("birthday3").value;
+        if(!name||!surname||!birthday||!monthlySalary){
+            swal({
+                title: "Something Went Wrong",
+                text: "You Should Not Left Name Surname Birthday And MonthlySalary Fields Empty",
+                icon: "error",
+                button: "Close This Alert",
+              })
+        }
+        else{
         const params = {
           name:name,
           surname:surname,
@@ -23,7 +32,7 @@ const UpdateCustomer = (props)=>{
           deposit:parseInt(deposit),
           debt:parseInt(debt),
         }
-        const response = await updateCustomerByTc("http://localhost:8080/Customer/update?tc=",tc,params);
+        const response = await updateCustomerByTc("http://localhost:8080/Customer/update?tc=",idNo,params);
         if(response.error){
             swal({
                 title: "Something Went Wrong",
@@ -33,46 +42,68 @@ const UpdateCustomer = (props)=>{
               })
         }
         else{
+            swal({
+                title: "Success",
+                text: "User Successfully Updated",
+                icon: "success",
+                button: "Close This Alert",
+              })
             props.updateMyParams(response.customer);
         }
         props.func(1); 
     }
+}
     const deleteClicked = async ()=>{
-        console.log(props.params.creditLimit);
-        console.log(props.params.birthday);
+        const response = await deleteCustomerByTc("http://localhost:8080/Customer/delete?tc=",idNo);
+        if(response.error){
+            swal({
+                title: "Something Went Wrong",
+                text: response.error,
+                icon: "error",
+                button: "Close This Alert",
+              })
+        }
+        else{
+            swal({
+                title: "Deleted Successfully",
+                text: response.success,
+                icon: "success",
+                button: "Close This Alert",
+              });
+        }
         props.func(0);
     }
     const mainClicked = async()=>{
+        props.updateMyParams(props.params);
         props.func(0);
     }
     const beforeLoad = ()=>{
-        document.getElementById("name3").value = props.params.name;
-        document.getElementById("surname3").value = props.params.surname;
-        document.getElementById("tcno3").value = props.params.idNo;
-        document.getElementById("phonenumber3").value = props.params.phoneNumber;
-        document.getElementById("deposit3").value = props.params.deposit;
-        document.getElementById("debt3").value = props.params.deposit;
-        document.getElementById("monthlysalary3").value = props.params.monthlySalary;
-        document.getElementById("birthday3").value = props.params.birthday;
-        tc = props.params.idNo;
-        console.log(tc);
+        setPhoneNumber(props.params.phoneNumber);
+        setName(props.params.name);
+        setSurname(props.params.surname);
+        setBirthday(props.params.birthday);
+        setDebt(props.params.debt);
+        setMonthlySalary(props.params.monthlySalary);
+        setIdNo(props.params.idNo);
+        setDeposit(props.params.deposit);
     }
     useEffect(() =>{
         beforeLoad();
         
       },[props.params]);
     return(
+        <Bounce left>
         <div className="bigback">
           <h1 className="title"> Update Customer </h1>
-          <input type="text" name="Name" placeholder="Name" className="formelements" id="name3" defaultValue={props.params.name}></input>
-          <input type="text" name="Surname" placeholder="Surname"className="formelements" id="surname3" defaultValue={props.params.surname}></input>
-          <input type="text" name="TC No" placeholder="TC NO"className="formelements" id="tcno3" defaultValue={props.params.idNo}></input>
-          <input type="text" name="Phone Number" placeholder="Phone Number"className="formelements" id="phonenumber3" defaultValue={props.params.phoneNumber}></input>
-          <input type="text" name="Deposit" placeholder="Deposit"className="formelements" id="deposit3" defaultValue={props.params.deposit}></input>
-          <input type="text" name="Debt" placeholder="Debt"className="formelements" id="debt3" defaultValue={props.params.debt}></input>
-          <input type="text" name="Monthly Salary" placeholder="Monthly Salary"className="formelements" id="monthlysalary3" defaultValue={props.params.monthlySalary}></input>
+          <input type="text" name="Name" placeholder="Name" className="formelements" id="name3" value={name} onChange={(e)=>setName(e.target.value)}></input>
+          <input type="text" name="Surname" placeholder="Surname"className="formelements" id="surname3" value={surname} onChange={(e)=>setSurname(e.target.value)}></input>
+          <input type="text" name="TC No" placeholder="TC NO"className="formelements" id="tcno3" value={idNo}></input>
+          <input type="text" name="Phone Number" placeholder="Phone Number"className="formelements" id="phonenumber3" value= {phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)}></input>
+          <input type="text" name="Deposit" placeholder="Deposit"className="formelements" id="deposit3" value={deposit} onChange={(e)=>setDeposit(e.target.value)}></input>
+          <input type="text" name="Debt" placeholder="Debt"className="formelements" id="debt3" value={debt} onChange={(e)=>setDebt(e.target.value)}></input>
+          <input type="text" name="Monthly Salary" placeholder="Monthly Salary"className="formelements" id="monthlysalary3" value={monthlySalary} onChange={(e)=>setMonthlySalary(e.target.value)}></input>
           <label for="birthday" className="formelements label">Birthday:</label>
-          <input type="date" name="Birthday" className="formelements" id="birthday3" defaultValue={props.params.birthday}></input>
+          <input type="date" name="Birthday" className="formelements" id="birthday3" value={birthday} onChange={(e)=>setBirthday(e.target.value)} onClick={(e)=>e.preventDefault()}></input>
           <p className="formElements label2"> Credit Limit : {props.params.creditLimit}</p>
           <p className="formElements label2">Credit Score : {props.params.creditScore}</p>
           <div className="buttons">
@@ -81,6 +112,7 @@ const UpdateCustomer = (props)=>{
           <button className="btn btn-primary middlebut"onClick={mainClicked}>Main Menu</button> 
           </div>
        </div>
+       </Bounce>
     );
 
 }

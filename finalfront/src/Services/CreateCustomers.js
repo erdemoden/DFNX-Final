@@ -31,3 +31,13 @@ export const updateCustomerByTc = async(url,tc,params)=>{
   });
   return await response.json();
 }
+export const deleteCustomerByTc = async(url,tc)=>{
+  const response = await fetch(url+tc,{
+    method:"GET",
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    credentials:'include'
+  });
+  return await response.json();
+}

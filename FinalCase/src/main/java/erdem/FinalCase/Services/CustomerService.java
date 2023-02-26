@@ -3,6 +3,7 @@ package erdem.FinalCase.Services;
 import erdem.FinalCase.Entities.Customer;
 import erdem.FinalCase.Repositories.CustomerRepo;
 import erdem.FinalCase.Responses.CustomerResponse;
+import erdem.FinalCase.Responses.DeleteResponse;
 import erdem.FinalCase.Responses.FullCustomer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +27,6 @@ public class CustomerService {
         log.info(String.valueOf(customer.getDebt()));
         FullCustomer fullCustomer = new FullCustomer();
         customer = scoreService.CalculateCreditScore(customer);
-       /* smsSender.sendSms(customer.getPhoneNumber(),
-                "Your Credit Score is : "+customer.getCreditScore()+
-                "Because Of That Your Credit Limit is : "+customer.getCreditLimit()
-                );*/
         log.info(String.valueOf(customer.getDebt()));
         if(customerRepo.findByIdNo(customer.getIdNo())!=null){
             fullCustomer.setError("The User Is Exist ");
@@ -37,6 +34,10 @@ public class CustomerService {
         }
         fullCustomer.setCustomer(customer);
         customerRepo.save(customer);
+        smsSender.sendSms(customer.getPhoneNumber(),
+                "Your Credit Score is : "+customer.getCreditScore()+
+                        " Because Of That Your Credit Limit is : "+customer.getCreditLimit()
+        );
        return fullCustomer;
     }
     public FullCustomer getByTcAndBirth(String idNo, String birthday){
@@ -79,11 +80,22 @@ public class CustomerService {
             customer.setDeposit(change.getDeposit());
             customer.setMonthlySalary(change.getMonthlySalary());
             customer.setPhoneNumber(change.getPhoneNumber());
-            //customer = change;
             fullCustomer.setCustomer(customerRepo.save(customer));
             return fullCustomer;
         }
         fullCustomer.setError("We Could Not Find Customer");
         return fullCustomer;
+    }
+
+    public DeleteResponse deleteCustomer(String tc){
+        DeleteResponse deleteResponse = new DeleteResponse();
+        Customer customer = customerRepo.findByIdNo(tc);
+        if(customer!=null){
+            deleteResponse.setSuccess("Customer Deleted");
+            customerRepo.delete(customer);
+            return deleteResponse;
+        }
+        deleteResponse.setError("We Could Not Find Customer");
+        return deleteResponse;
     }
 }

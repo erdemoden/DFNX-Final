@@ -71,3 +71,56 @@
     font-weight: bolder;
     font-size:x-large;
 }
+@media screen and (max-width:760px) {
+    .back{
+        width: 90%;
+    }
+    .bigback{
+        width: 90%;
+    }
+    .smallback{
+        width: 90%;
+    }
+    .leftbut{
+        width: 30%;
+        margin-left: 0px;
+        height: 70px;
+
+    }
+    .rightbut{
+        width: 30%;
+        height: 70px;
+        margin-right: 0px;
+    }
+    .middlebut{
+        width: 30%;
+        height: 70px;
+    }
+}
+@media  screen and (max-width:300px) {
+    .back{
+        width: 100%;
+    }
+    .bigback{
+        width: 100%;
+        height: 900px;
+    }
+    .smallback{
+        width: 100%;
+    }
+    .leftbut{
+        width: 33%;
+        margin-left: 0px;
+        height: 70px;
+
+    }
+    .rightbut{
+        width: 33%;
+        height: 70px;
+        margin-right: 0px;
+    }
+    .middlebut{
+        width: 33%;
+        height: 70px;
+    }
+}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import UpdateCustomer from "./UpdateCustomer";
 import React from 'react';
 import GetCustomer from "./GetCustomer";
+import { Bounce } from "react-reveal";
 const CreateCustomer = ()=>{
   const [page,setPage] = useState(0);
   const [myparams,setMyParams] = useState({}); 
@@ -61,6 +62,12 @@ const updateMyParams = (params)=>{
           })
         }
         else{
+          swal({
+            title: "Created Customer",
+            text: "Customer Created Successfully",
+            icon: "success",
+            button: "Close This Alert",
+          })
           updateMyParams(response.customer)
           updatePage(1);
         }
@@ -71,6 +78,7 @@ const updateMyParams = (params)=>{
   }
     return(
       <React.Fragment>
+        <Bounce left>
         <div className="back" style={{display: page == 0 ? "block":"none"}}>
           <h1 className="title"> Create Customer </h1>
           <input type="text" name="Name" placeholder="Name" className="formelements" id="name"></input>
@@ -81,14 +89,15 @@ const updateMyParams = (params)=>{
           <input type="text" name="Debt" placeholder="Debt"className="formelements" id="debt"></input>
           <input type="text" name="Monthly Salary" placeholder="Monthly Salary"className="formelements" id="monthlysalary"></input>
           <label for="birthday" className="formelements label">Birthday:</label>
-          <input type="date" name="Birthday" className="formelements" id="birthday"></input>
+          <input type="date" name="Birthday" className="formelements" id="birthday" onClick={(e)=>e.preventDefault()}></input>
           <div className="buttons">
           <button className="btn btn-success leftbut" onClick={saveClicked}>Save</button>
           <button className="btn btn-primary rightbut" onClick={getClicked}>Get Customer</button>
           </div>
         </div>
+        </Bounce>
         <div style={{display: page == 1 ? "block":"none"}}>
-        <UpdateCustomer params={myparams} func={updatePage} updateMyParams = {updateMyParams}/>
+        <UpdateCustomer params={myparams} func={updatePage} updateMyParams = {updateMyParams} page={page}/>
         </div>
         <div style={{display: page == 2 ? "block":"none"}}>
           <GetCustomer func={updatePage}  params={updateMyParams}/>

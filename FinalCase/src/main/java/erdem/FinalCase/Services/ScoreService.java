@@ -45,7 +45,12 @@ public class ScoreService {
             }
             return customer;
         }
-        customer.setCreditScore(creditScore);
+        if(creditScore>=0 && creditScore<=500) {
+            customer.setCreditScore(creditScore);
+        }
+        else{
+            customer.setCreditScore(0);
+        }
         customer.setCreditLimit(0);
         return customer;
     }

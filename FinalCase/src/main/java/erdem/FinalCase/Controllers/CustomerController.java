@@ -2,6 +2,7 @@ package erdem.FinalCase.Controllers;
 
 import erdem.FinalCase.Entities.Customer;
 import erdem.FinalCase.Responses.CustomerResponse;
+import erdem.FinalCase.Responses.DeleteResponse;
 import erdem.FinalCase.Responses.FullCustomer;
 import erdem.FinalCase.Services.CustomerService;
 import jakarta.validation.Valid;
@@ -30,6 +31,10 @@ public class CustomerController {
     @PostMapping("/update")
     public FullCustomer updateByTc(@RequestBody @Valid Customer customer,@RequestParam String tc){
         return customerService.updateCustomer(tc,customer);
+    }
+    @GetMapping("/delete")
+    public DeleteResponse deleteByTc(@RequestParam String tc){
+        return customerService.deleteCustomer(tc);
     }
     @GetMapping("/all")
     public List<CustomerResponse> getAll(){
